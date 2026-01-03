@@ -30,7 +30,9 @@ class ReplayBuffer:
 
     def sample(self, batch_size):
         
-        ind = np.random.choice(self.size, size=batch_size, replace=False)
+        #ind = np.random.choice(self.size, size=batch_size, replace=False)
+        # sampling without with replacement is probably a faster approach.
+        ind = np.random.randint(0, self.size, size=batch_size)
 
         return (
             torch.FloatTensor(self.state[ind]).to(self.device),
