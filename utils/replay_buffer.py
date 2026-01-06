@@ -2,13 +2,23 @@ import numpy as np
 import torch
 # REPLAY BUFFER CLASS
 
+
 class ReplayBuffer:
-    def __init__(self, state_dim, action_dim, ohe_dim, goal_dim, device, max_size=100_000):
+    def __init__(
+        self,
+        state_dim,
+        action_dim,
+        ohe_dim,
+        goal_dim,
+        device,
+        max_size=100_000,
+        seed=42,
+    ):
         self.max_size = max_size
         self.ptr = 0
         self.size = 0
         self.device = device
-
+        self.rng = np.random.default_rng(seed)
         self.state = np.zeros((max_size, state_dim))
         self.action = np.zeros((max_size, action_dim))
         self.ohe = np.zeros((max_size, ohe_dim))
@@ -17,7 +27,7 @@ class ReplayBuffer:
         self.reward = np.zeros((max_size, 1))
         self.done = np.zeros((self.max_size, 1))
 
-    def add(self, state, action, ohe, goal, next_state, reward, done):        
+    def add(self, state, action, ohe, goal, next_state, reward, done):
         self.state[self.ptr] = state
         self.action[self.ptr] = action
         self.ohe[self.ptr] = ohe
@@ -29,10 +39,7 @@ class ReplayBuffer:
         self.size = min(self.size + 1, self.max_size)
 
     def sample(self, batch_size):
-        
-        #ind = np.random.choice(self.size, size=batch_size, replace=False)
-        # sampling without with replacement is probably a faster approach.
-        ind = np.random.randint(0, self.size, size=batch_size)
+        ind = np.random.choice(self.size, size=batch_size, replace=False)
 
         return (
             torch.FloatTensor(self.state[ind]).to(self.device),
