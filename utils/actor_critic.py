@@ -9,13 +9,13 @@ class Actor(nn.Module):
         self.net = nn.Sequential(
             nn.Linear(state_dim + ohe_dim + goal_dim, 1024),
             nn.LayerNorm(1024),
-            nn.LeakyReLU(),
+            nn.PReLU(),
             nn.Linear(1024, 1024),
             nn.LayerNorm(1024),
-            nn.LeakyReLU(),
+            nn.PReLU(),
             nn.Linear(1024, 512),
             nn.LayerNorm(512),
-            nn.LeakyReLU(),
+            nn.PReLU(),
             nn.Linear(512, action_dim),
             nn.Tanh(),
         )
@@ -30,13 +30,13 @@ class Critic(nn.Module):
         self.net = nn.Sequential(
             nn.Linear(state_dim + ohe_dim + action_dim + goal_dim, 1024),
             nn.LayerNorm(1024),
-            nn.LeakyReLU(),
+            nn.PReLU(),
             nn.Linear(1024, 1024),
             nn.LayerNorm(1024),
-            nn.LeakyReLU(),
+            nn.PReLU(),
             nn.Linear(1024, 512),
             nn.LayerNorm(512),
-            nn.LeakyReLU(),
+            nn.PReLU(),
             nn.Linear(512, 1),
         )
 
