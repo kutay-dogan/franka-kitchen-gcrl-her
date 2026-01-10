@@ -14,7 +14,7 @@ class DDPGAgent:
         ohe_dim,
         goal_dim,
         device,
-        actor_lr=2e-4,
+        actor_lr=1e-4,
         critic_lr=2e-4,
         gamma=0.99,
         tau=0.001,
@@ -43,7 +43,7 @@ class DDPGAgent:
                 noise = torch.randn_like(param) * noise_scale
                 param.add_(noise)
 
-    def select_action(self, state, ohe, goal, noise=0.1, use_parameter_noise=False):
+    def select_action(self, state, ohe, goal, noise=0.1, use_parameter_noise=False, min_action=-1, max_action=1):
         state = torch.FloatTensor(state).unsqueeze(0).to(self.device)
         ohe = torch.FloatTensor(ohe).unsqueeze(0).to(self.device)
         goal = torch.FloatTensor(goal).unsqueeze(0).to(self.device)
@@ -64,7 +64,7 @@ class DDPGAgent:
         if not use_parameter_noise and noise > 0:
             action = action + np.random.normal(0, noise, size=action.shape)
 
-        return np.clip(action, -1, 1)
+        return np.clip(action, min_action, max_action)
 
     def train(self, replay_buffer, batch_size=256):
         state, action, ohe, goal, next_state, reward, done = replay_buffer.sample(

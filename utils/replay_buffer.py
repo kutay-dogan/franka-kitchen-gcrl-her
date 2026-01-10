@@ -26,6 +26,7 @@ class ReplayBuffer:
         self.next_state = np.zeros((max_size, state_dim))
         self.reward = np.zeros((max_size, 1))
         self.done = np.zeros((self.max_size, 1))
+        self.state_dim = state_dim
 
     def add(self, state, action, ohe, goal, next_state, reward, done):
         self.state[self.ptr] = state
@@ -38,8 +39,20 @@ class ReplayBuffer:
         self.ptr = (self.ptr + 1) % self.max_size
         self.size = min(self.size + 1, self.max_size)
 
+    def add_batch(self, batch_size, state, action, ohe, goal, next_state, reward, done):
+        indices = (np.arange(self.ptr, self.ptr + batch_size)) % self.max_size
+        self.state[indices] = state[:, : self.state_dim]
+        self.action[indices] = action
+        self.ohe[indices] = ohe
+        self.goal[indices] = goal
+        self.next_state[indices] = next_state[:, : self.state_dim]
+        self.reward[indices] = reward
+        self.done[indices] = done
+        self.ptr = (self.ptr + batch_size) % self.max_size
+        self.size = min(self.size + batch_size, self.max_size)
+
     def sample(self, batch_size):
-        ind = np.random.randint(0, self.size, size=batch_size)
+        ind = self.rng.integers(0, self.size, size=batch_size)
 
         return (
             torch.FloatTensor(self.state[ind]).to(self.device),
