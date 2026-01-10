@@ -25,7 +25,7 @@ def flatten_info(state_dict, tasks):
 
 
 def add_human_demonstrations(
-    replay_buffer, ohe_lookup, tasks, desired_goal, dir: str = "./my_kitchen_data"
+    replay_buffer, ohe_lookup, tasks, desired_goal:dict=None, dir: str = "./my_kitchen_data"
 ):
     # function for adding human demonstration data into the replay buffer (batched)
     # accepts only .npz format, task name should be included in the file name starting with "human_memory"
