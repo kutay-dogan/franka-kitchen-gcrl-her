@@ -47,7 +47,7 @@ def save_checkpoint(
             print(f"--> Checkpoint saved: {save_filename}")
 
 
-def load_checkpoint(dir, resume_path, agent, verbose: bool = True):
+def load_checkpoint(resume_path, agent, verbose: bool = True):
     if resume_path is not None and os.path.exists(resume_path):
         checkpoint = torch.load(resume_path, weights_only=False)
 
