@@ -17,6 +17,7 @@ class Actor(nn.Module):
             nn.LayerNorm(512),
             nn.LeakyReLU(),
             nn.Linear(512, action_dim),
+            # since our action space is [-1,1], we don't need to scale Tanh.
             nn.Tanh(),
         )
 
