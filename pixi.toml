@@ -15,6 +15,7 @@ ipykernel = ">=7.1.0,<8"
 tqdm = ">=4.67.1,<5"
 gymnasium-robotics = ">=1.4.1,<2"
 huggingface_hub = ">=1.2.3,<2"
+seaborn = ">=0.13.2,<0.14"
 
 [pypi-options]
 extra-index-urls = ["https://download.pytorch.org/whl/cu130"]

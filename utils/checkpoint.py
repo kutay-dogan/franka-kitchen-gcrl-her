@@ -47,7 +47,7 @@ def save_checkpoint(
             print(f"--> Checkpoint saved: {save_filename}")
 
 
-def load_checkpoint(resume_path, agent, verbose: bool = True):
+def load_checkpoint(resume_path, agent, load_replay_buffer:bool=True, verbose: bool = True):
     if resume_path is not None and os.path.exists(resume_path):
         checkpoint = torch.load(resume_path, weights_only=False)
 
@@ -72,7 +72,14 @@ def load_checkpoint(resume_path, agent, verbose: bool = True):
 
         total_steps = checkpoint["total_steps"]
         start_episode = checkpoint["episode"] + 1
-        replay_buffer = checkpoint["replay_buffer"]
+
+        # removed replay buffer due to git lfs file size limitations
+        # set load_replay_buffer True if you want load replay buffer
+        # from your saved checkpoint later
+        if load_replay_buffer:
+            replay_buffer = checkpoint["replay_buffer"]
+        else:
+            replay_buffer = None
 
         if verbose:
             print(f"Resumed successfully from Episode {start_episode}")
