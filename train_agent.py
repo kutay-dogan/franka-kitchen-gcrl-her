@@ -56,7 +56,7 @@ TASKS = [
 # so that the agent can distinguish which actions should be taken for a specific task.
 OHE_LOOKUP = ohe_goals(TASKS)
 # what about relabled "fake" tasks in HER mechanism?
-# we simply use a zero vector for those.
+# we simply use a zero vector.
 
 # CREATING ENVIRONMENT AND INITIALIZING AGENT
 env = gym.make(ENV_NAME, max_episode_steps=MAX_STEPS, tasks_to_complete=TASKS)
@@ -93,7 +93,7 @@ plot_display = display.display(plt.figure(figsize=(16, 12)), display_id=True)
     efficiency_history,
     total_steps,
     replay_buffer,
-) = load_checkpoint(CHECKPOINT_DIR, RESUME_PATH, agent)
+) = load_checkpoint(CHECKPOINT_DIR, RESUME_PATH, agent, load_replay_buffer=False)
 
 # IMPORTANT
 # comment the replay buffer line below if you want to use saved replay buffer!
