@@ -29,8 +29,7 @@ You can also check the dependencies on `pixi.toml` file and install manually wit
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/kutay-dogan/franka-kitchen-gcrl-her.git](https://github.com/kutay-dogan/franka-kitchen-gcrl-her.git)
-   cd franka-kitchen-gcrl-her
+   git clone https://github.com/kutay-dogan/franka-kitchen-gcrl-her.git
    ```
 
 2. Initialize the environment and install dependencies:
